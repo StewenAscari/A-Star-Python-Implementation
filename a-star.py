@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 class neighborss(object):
+    
     def __init__(self, name, value):
         self.name = name
         self.value = value
@@ -10,6 +11,8 @@ class neighborss(object):
 
     def __repr__(self):
         return self.name
+
+    
 
 
 joao_pessoa = neighborss("João Pessoa", 460)
@@ -24,7 +27,7 @@ soledade = neighborss("Soledade", 243)
 coxixola = neighborss("Coxixola", 232)
 patos = neighborss("Patos", 122)
 monteiro = neighborss("Monteiro", 195)
-catole = neighborss("Catolé do Rocha", 110)
+catole = neighborss("Catole do Rocha", 110)
 pombal = neighborss("Pombal", 55)
 itaporanga = neighborss("Itaporanga", 65)
 sousa = neighborss("Sousa", 20)
@@ -52,17 +55,19 @@ cajazeiras.neighborss_neighbors([[sousa, 43], [itaporanga, 121]])
 def search( fist_state, last_state):
     frontier= [[fist_state, 0]]
     explored= set()
-    
+    cont=1 ## counter for steps
     while True:
-        print("frontier")
-        print(frontier)
+        print("\n Passo: " + str(cont))
+        print("\n Frontier: "+ str(add_frontier(frontier)))
+        
         if len(frontier)== 0:
             return False
 
         newState= choiceState(frontier)
         explored.add(newState[0])
-        print("choice")
-        print(newState[0])
+        way_explored= add_way(newState) # here calling for function add_way
+
+        print("\n Chosen node: "+ str(choice_node(newState)))
 
         if newState[0]== last_state:
             return newState
@@ -76,7 +81,29 @@ def search( fist_state, last_state):
                     exchangeFrontier( frontier, neighbors, price+newState[1])
                 else:
                     frontier.append([neighbors,price+ newState[1]])
-    
+        cont+=1
+# here is array for way
+display_walk= []
+
+# here add at frontier for print
+def add_frontier(frontier):
+    display_frontier=[]
+
+    for i in range(len(frontier)):
+        states= frontier[i]
+        display_frontier.append(str(states[0]) + ":  " + str(states[1]+ states[0].value))
+
+    return display_frontier
+
+#here add at traveled states
+def add_way(frontier):
+    display_walk.append(frontier[0])
+# here is choice the node for print
+def choice_node(newState):
+    display_choice= []
+    display_choice.append(str(newState[0])+ ": "+ str(newState[1]+ newState[0].value))
+
+    return display_choice
 
 def choiceState(frontier):
     littleValue = frontier[0][1]+ frontier[0][0].value
@@ -100,10 +127,10 @@ def inFrontier(frontier,neighbors):
     return False
 
 def exchangeFrontier(frontier,neighbors, price):
-    for help in frontier:
-        if neighbors == help[0]:
-            if price+ help[0].value< help[1]+ help[0].value:
-                help[1]= price
+    for frontier_state in frontier:
+        if neighbors == frontier_state[0]:
+            if price+ frontier_state[0].value< frontier_state[1]+ frontier_state[0].value:
+                frontier_state[1]= price
 	
 objective= search(joao_pessoa, cajazeiras)
-print(objective)
+print("\n" + str(display_walk))
