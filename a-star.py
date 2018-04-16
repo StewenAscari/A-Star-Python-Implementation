@@ -15,7 +15,7 @@ class neighborss(object):
     
 
 
-joao_pessoa = neighborss("João Pessoa", 460)
+joao_pessoa = neighborss("Joao Pessoa", 460)
 campina_grande = neighborss("Campina Grande", 300)
 itabaiana = neighborss("Itabaiana", 360)
 santa_rita = neighborss("Santa Rita", 451)
@@ -57,7 +57,7 @@ def search( fist_state, last_state):
     explored= set()
     cont=1 ## counter for steps
     while True:
-        print("\n Passo: " + str(cont))
+        print("\n Step: " + str(cont))
         print("\n Frontier: "+ str(add_frontier(frontier)))
         
         if len(frontier)== 0:
@@ -65,7 +65,7 @@ def search( fist_state, last_state):
 
         newState= choiceState(frontier)
         explored.add(newState[0])
-        way_explored= add_way(newState) # here calling for function add_way
+        add_way(newState) # here calling for function add_way
 
         print("\n Chosen node: "+ str(choice_node(newState)))
 
